@@ -1,10 +1,6 @@
 import numpy as np
 import pandas as pd
 
-import numpy as np
-import pandas as pd
-import random
-
 class Die():
     '''
     General Purpose: A class that creates a die object for the project with distinct faces and
@@ -13,7 +9,7 @@ class Die():
     
     def __init__(self, faces, weight = 1.0):                        #W defualts to 1.0
         '''
-        Initializes the die with a list of faces. 
+        Initializes the die with an array of faces. 
 
         Parameters:
         -----------
@@ -345,3 +341,4 @@ class Analyzer():
         perm_df.set_index('Permutation', inplace=True)      #set the index to the permutation
         
         return perm_df
+    
