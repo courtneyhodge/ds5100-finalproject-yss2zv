@@ -102,7 +102,7 @@ class Die():
     
     
 class Game():
-    def __init__(self):
+    def __init__(self, list_of_instantiated_die):
         pass
     
     
