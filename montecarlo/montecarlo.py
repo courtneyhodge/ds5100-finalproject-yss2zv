@@ -102,8 +102,56 @@ class Die():
     
     
 class Game():
-    def __init__(self, list_of_instantiated_die):
-        pass
+    def __init__(self, dice_list):
+        '''
+        Takes a single parameter, a list of already instantiated similar
+        dice.
+        '''
+        if all(isinstance(die, Die) for die in dice_list):                 #check if all objects in dice_list are instances of Die
+            self.dice_list = dice_list                                     #if so, set self.dice_list to dice_list
+        else:
+            raise ValueError("value error: all objects in dice_list must be instances of Die")
+
+    def play(self, num_rolls):
+        '''
+        Takes an integer parameter to specify how many times the dice should
+        be rolled. Saves the result of the play to a private data frame.
+        The data frame should be in wide format, i.e. have the roll number
+        as a named index, columns for each die number (using its list index
+        as the column name), and the face rolled in that instance in each
+        cell. 
+        '''
+        result_dict = {f'Die_{i}': [] for i in range(len(self.dice_list))} #create a dictionary to store the results in
+
+        for i in range(num_rolls):                                         #roll the dice num_rolls times
+            for j, die in enumerate(self.dice_list):                       #roll each die in the list
+                result_dict[f'Die_{j}'].append(die.roll())                 #append the result of the roll to the dictionary
+
+        self._private_data_frame_2 = pd.DataFrame(result_dict)             #save the results in a private data frame
+        self._private_data_frame_2.index.name = "Roll Number"              #set the index name to "Roll Number"
+                
+    def show_results(self, wide_or_narrow = "wide"):
+        '''
+        This method just returns a copy of the private play data frame to
+        the user. Takes a parameter to return the data frame in narrow or 
+        wide form which defaults to wide form. The narrow form will have 
+        a MultiIndex, comprising the roll number and the die number 
+        (in that order), and a single column with the outcomes (i.e. the 
+        face rolled). This method should raise a ValueError if the user 
+        passes an invalid option for narrow or wide. 
+        '''
+        if(wide_or_narrow == "wide"): 
+            return self._private_data_frame_2.copy()
+
+        elif(wide_or_narrow == "narrow"): 
+            narrow_df = self._private_data_frame_2.stack().reset_index()   #stack the data frame and reset the index
+            narrow_df.columns = ["Roll Number", "Die Number", "Outcomes"]  #set the column names
+            
+            
+            return narrow_df.set_index(['Roll Number', 'Die Number'])      #set the index to the roll number and die number
+
+        else:
+            raise ValueError("value error: use either 'wide' or 'narrow'")
     
     
 class Analyzer():
