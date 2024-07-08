@@ -6,7 +6,7 @@ class DieTestSuite(unittest.TestCase):
     #create a die with specified faces and test if it exists
     def test_1_create_die(self):
         faces_array = np.array([1,2,3,4,5,6])
-        die = Die(faces_array, weight = 1.0)
+        self.die = Die(faces_array, weight = 1.0)
     
     #error message in case test fails
     message = "Die creation failed"
@@ -14,7 +14,7 @@ class DieTestSuite(unittest.TestCase):
     #assertTrue
     self.assertTrue('Die created! Yay!', message)
     
-    self.die = die
+    #self.die = die
     
     print(die)
  
