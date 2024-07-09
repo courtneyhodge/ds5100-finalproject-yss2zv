@@ -1,4 +1,4 @@
 from .montecarlo import Die, Game, Analyzer
 
 
-print("Presto, it works!")
+print("Let's play a game!")

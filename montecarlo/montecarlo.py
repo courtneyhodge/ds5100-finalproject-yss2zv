@@ -9,7 +9,7 @@ class Die():
     
     def __init__(self, faces, weight = 1.0):                        #W defualts to 1.0
         '''
-        Initializes the die with an array of faces. 
+        Initializes the die with a list of faces. 
 
         Parameters:
         -----------
@@ -37,10 +37,10 @@ class Die():
                     raise TypeError("wrong type: all faces must be strings or numbers") #if this doesn't work, raise TypeError
 
         elif np.issubdtype(faces.dtype, np.integer):                #check if sub dtypes of faces are ints
-            print("Faces are all ints!")
+            pass
 
         elif np.issubdtype(faces.dtype, np.floating):               #check if sub dtypes of faces are floats
-            print("Float faces are now all floats!")
+            pass
 
         elif np.issubdtype(faces.dtype, np.str_):                   #check if sub dtypes of faces are str
             for element in faces:                                   #if so, try to change them to ints
@@ -56,7 +56,7 @@ class Die():
         if(len(np.unique(faces)) != len(faces)):                    #check if each value is unique in faces, if not, raise ValueError
             raise ValueError("duplicate values: faces must be distinct")
         else:
-            print("Faces are all unique!")
+            pass
 
         self.faces = faces
 
