@@ -145,7 +145,7 @@ class Game():
     '''
     General Purpose: A class representing a game played with a list of dice.
     '''
-    def __init__(self, dice_list):
+    def __init__(self, dice):
         '''
         Initializes the game with a list of dice. Checks if all objects in
         dice_list are instances of Die. If not, raises a ValueError.
@@ -160,8 +160,8 @@ class Game():
         ValueError:
             If any object in dice_list is not an instance of Die.
         '''
-        if all(isinstance(die, Die) for die in dice_list):                 #check if all objects in dice_list are instances of Die
-            self.game = dice_list                                     #if so, set self.dice_list to dice_list
+        if all(isinstance(die, Die) for die in dice):                 #check if all objects in dice_list are instances of Die
+            self.dice = dice                                     #if so, set self.dice_list to dice_list
         else:
             raise ValueError("value error: all objects in dice_list must be instances of Die")
             
@@ -180,10 +180,10 @@ class Game():
         num_rolls : int
             The number of times the dice should be rolled.
         '''
-        result_dict = {f'Die_{i}': [] for i in range(len(self.game))} #create a dictionary to store the results in
+        result_dict = {f'Die_{i}': [] for i in range(len(self.dice))} #create a dictionary to store the results in
 
         for i in range(num_rolls):                                         #roll the dice num_rolls times
-            for j, die in enumerate(self.game):                       #roll each die in the list
+            for j, die in enumerate(self.dice):                       #roll each die in the list
                 result_dict[f'Die_{j}'].extend(die.roll(1))                #append the result of the roll to the dictionary
 
         self._private_data_frame_2 = pd.DataFrame(result_dict)             #save the results in a private data frame
@@ -224,7 +224,7 @@ class Game():
 
         else:
             raise ValueError("value error: use either 'wide' or 'narrow'")
-    
+        
     
     
 class Analyzer():
@@ -264,7 +264,7 @@ class Analyzer():
         df = self.game.show_results()     #grab the current game's df
 
         jackpot_count = 0
-        for roll_number, row in df.iterrows():  #iterate through each row in the df
+        for _, row in df.iterrows():  #iterate through each row in the df
             if row.nunique() == 1:              #check if nunique is 1 (meaning each die rolls the same number on a given roll)
                 jackpot_count += 1
 
@@ -282,7 +282,7 @@ class Analyzer():
         '''
         df = self.game.show_results("wide")
 
-        all_faces = sorted(set(face for die in self.game.dice_list for face in die.faces)) #get all faces from all dice
+        all_faces = sorted(set(face for die in self.game.dice for face in die.faces)) #get all faces from all dice
         
         face_df = pd.DataFrame(0, index = df.index, columns = all_faces) #create a dataframe to store the results
        
@@ -342,4 +342,3 @@ class Analyzer():
         perm_df.set_index('Permutation', inplace=True)      #set the index to the permutation
         
         return perm_df
-    

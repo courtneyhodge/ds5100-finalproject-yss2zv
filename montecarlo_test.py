@@ -7,7 +7,7 @@ from montecarlo import Die, Game, Analyzer
 class DieTestSuite(unittest.TestCase):
     #create a die with specified faces and test if it exists
         
-    def test_1_create_die(self):
+    def test_01_create_die(self):
         #make an instance of a six sided die
         faces_array = np.array([1,2,3,4,5,6])
         
@@ -28,7 +28,7 @@ class DieTestSuite(unittest.TestCase):
         self.assertTrue(flag, message)
         #------end-assertion------#
         
-    def test_2_update_weight(self):
+    def test_02_update_weight(self):
         #innitialize die
         faces_array = np.array([1,2,3,4,5,6])
         die = Die(faces_array, weight = 1.0)
@@ -49,7 +49,7 @@ class DieTestSuite(unittest.TestCase):
         self.assertTrue(flag, message)
         #------end-assertion------#
         
-    def test_3_roll(self):
+    def test_03_roll(self):
         #innitialize die
         faces_array = np.array([1,2,3,4,5,6])
         self.die = Die(faces_array, weight = 1.0)
@@ -71,7 +71,7 @@ class DieTestSuite(unittest.TestCase):
         self.assertTrue(flag, message)
         #------end-assertion------#
         
-    def test_4_die_curr_state(self):
+    def test_04_die_curr_state(self):
         #innitialize die
         faces_array = np.array([1,2,3,4,5,6])
         die = Die(faces_array, weight = 1.0)
@@ -95,7 +95,7 @@ class DieTestSuite(unittest.TestCase):
         
 class GameTestSuite(unittest.TestCase):
     
-    def test_5_create_game(self):
+    def test_05_create_game(self):
         #innitialize a die
         faces_array = np.array([1,2,3,4,5,6])
         die = Die(faces_array, weight = 1.0)
@@ -120,7 +120,7 @@ class GameTestSuite(unittest.TestCase):
         self.assertTrue(flag, message)
         #------end-assertion------#
         
-    def test_6_play(self):
+    def test_06_play(self):
         #innitialize a die
         faces_array = np.array([1,2,3,4,5,6])
         die = Die(faces_array, weight = 1.0)
@@ -148,7 +148,7 @@ class GameTestSuite(unittest.TestCase):
         self.assertTrue(flag, message)
         #------end-assertion------#
     
-    def test_7_show_results(self):
+    def test_07_show_results(self):
         #innitialize a die
         faces_array = np.array([1,2,3,4,5,6])
         die = Die(faces_array, weight = 1.0)
@@ -181,7 +181,7 @@ class GameTestSuite(unittest.TestCase):
         #------end-assertion------#
         
 class AnalyzerTestSuite(unittest.TestCase):
-    def test_8_create_game_to_analyze(self):
+    def test_08_create_game_to_analyze(self):
         #innitialize a die
         faces_array = np.array([1,2,3,4,5,6])
         die = Die(faces_array, weight = 1.0)
@@ -209,7 +209,7 @@ class AnalyzerTestSuite(unittest.TestCase):
         self.assertTrue(flag, message)
         #------end-assertion------#
         
-    def test_9_jackpot(self):
+    def test_09_jackpot(self):
         #innitialize a die
         faces_array = np.array([1,2,3,4,5,6])
         die = Die(faces_array, weight = 9.0) #adding a heavy weight for jackpots
@@ -242,8 +242,105 @@ class AnalyzerTestSuite(unittest.TestCase):
         self.assertTrue(flag, message)
         #------end-assertion------#
         
-    
+    def test_10_face_values(self):
+        #innitialize a die
+        faces_array = np.array([1,2,3,4,5,6])
+        die = Die(faces_array, weight = 9.0) #adding a heavy weight for jackpots
         
+        #make many of die
+        dice = [die for _ in range(7)]
+        
+        #create an instance of a game
+        game = Game(dice)
+        
+        #play the game
+        game.play(10)
+        
+        #create an analyzer instance
+        analyzer = Analyzer(game)
+        
+        #------start-test-------#
+        print(analyzer.face_values())
+        flag = True
+        
+        if(not isinstance(analyzer.face_values(), pd.DataFrame)):
+            flag = False
+        #------end-test---------#
+        
+        #------start-assertion------#
+        #error message in case test fails
+        message = 'Face values was NOT returned'
+        
+        #assertTrue
+        self.assertTrue(flag, message)
+        #------end-assertion------#
+        
+    def test_11_combination(self):
+        #innitialize a die
+        faces_array = np.array([1,2,3,4,5,6])
+        die = Die(faces_array, weight = 9.0) #adding a heavy weight for jackpots
+        
+        #make many of die
+        dice = [die for _ in range(7)]
+        
+        #create an instance of a game
+        game = Game(dice)
+        
+        #play the game
+        game.play(10)
+        
+        #create an analyzer instance
+        analyzer = Analyzer(game)
+        
+        #------start-test-------#
+        print(analyzer.combination_count())
+        flag = True
+        
+        if(not isinstance(analyzer.combination_count(), pd.DataFrame)):
+            flag = False
+            
+        #------end-test---------#
+        
+        #------start-assertion------#
+        #error message in case test fails
+        message = 'Combination df was NOT retunred'
+        
+        #assertTrue
+        self.assertTrue(flag, message)
+        #------end-assertion------#    
+        
+    def test_12_permutation(self):
+        #innitialize a die
+        faces_array = np.array([1,2,3,4,5,6])
+        die = Die(faces_array, weight = 9.0) #adding a heavy weight for jackpots
+        
+        #make many of die
+        dice = [die for _ in range(7)]
+        
+        #create an instance of a game
+        game = Game(dice)
+        
+        #play the game
+        game.play(10)
+        
+        #create an analyzer instance
+        analyzer = Analyzer(game)
+        
+        #------start-test-------#
+        print(analyzer.permutation_count())
+        flag = True
+        
+        if(not isinstance(analyzer.permutation_count(), pd.DataFrame)):
+            flag = False        
+        #------end-test---------#
+        
+        #------start-assertion------#
+        #error message in case test fails
+        message = 'Permutation df was NOT retunred'
+        
+        #assertTrue
+        self.assertTrue(flag, message)
+        #------end-assertion------# 
         
 if __name__ == '__main__':
     unittest.main(verbosity=3)
