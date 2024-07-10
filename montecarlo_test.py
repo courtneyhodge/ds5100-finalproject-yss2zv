@@ -11,31 +11,42 @@ class DieTestSuite(unittest.TestCase):
         #make an instance of a six sided die
         faces_array = np.array([1,2,3,4,5,6])
         
+        #------start-test-------#
         #innitialize this die, passing a weight of 1.0
-        self.die = Die(faces_array, weight = 1.0)
+        die = Die(faces_array, weight = 1.0)
+        flag = True
+        
+        if(not isinstance(die, Die)): #see if die is of type Die
+            flag = False
+        #------end-test---------#
         
         #------start-assertion------#
-    
         #error message in case test fails
         message = "Die creation failed"
 
         #assertTrue
-        self.assertTrue('Die created! Yay!', message)
+        self.assertTrue(flag, message)
         #------end-assertion------#
         
     def test_2_update_weight(self):
         #innitialize die
         faces_array = np.array([1,2,3,4,5,6])
-        self.die = Die(faces_array, weight = 1.0)
+        die = Die(faces_array, weight = 1.0)
         
-        #update the weights of the die for a particular face
-        self.die.update_weight(1, 7.0)
+        #------start-test-------#
+        #update the weights of the die for face "1"
+        die.update_weight(1, 7.0)
+        flag = True
+        
+        if(die.weight[0] != 7.0): #see if the weight updated
+            flag = False
+        #------end-test---------#
         
         #------start-assertion------#        
         #error message in case test fails
         message = 'Die weight did NOT update'
         #assertTrue
-        self.assertTrue('Die weight updated! Yay!', message)
+        self.assertTrue(flag, message)
         #------end-assertion------#
         
     def test_3_roll(self):
@@ -43,25 +54,43 @@ class DieTestSuite(unittest.TestCase):
         faces_array = np.array([1,2,3,4,5,6])
         self.die = Die(faces_array, weight = 1.0)
         
+        #------start-test-------#
         #roll the die 3 times
-        result = self.die.roll(3)
-        print(result)
+        print(self.die.roll(3))
+        flag = True
+        
+        if(len(self.die.roll(3)) != 3): #see if the die rolled 3 times
+            flag = False
+        #------end-test---------#
         
         #------start-assertion------#
         #error message in case test fails
         message = 'Die did NOT roll'
         
         #assertTrue
-        self.assertTrue('Die rolled! Yay!', message)
+        self.assertTrue(flag, message)
         #------end-assertion------#
         
     def test_4_die_curr_state(self):
         #innitialize die
         faces_array = np.array([1,2,3,4,5,6])
-        self.die = Die(faces_array, weight = 1.0)
+        die = Die(faces_array, weight = 1.0)
         
-        #show the current state of the die
-        #self.die.die_current_state()
+        #------start-test-------#
+        print(die.die_current_state())
+        flag = True
+        
+        if(not isinstance(die.die_current_state(), pd.DataFrame)): #check if the current die state df exists (shows results)
+            flag = False
+        #------end-test---------#
+        
+        #------start-assertion------#
+        #error message in case test fails
+        message = 'Die did NOT roll'
+        
+        #assertTrue
+        self.assertTrue(flag, message)
+        #------end-assertion------#
         
         
 class GameTestSuite(unittest.TestCase):
@@ -71,14 +100,149 @@ class GameTestSuite(unittest.TestCase):
         faces_array = np.array([1,2,3,4,5,6])
         die = Die(faces_array, weight = 1.0)
         
-        #make a couple of dice
+        #make many of die
+        dice = [die for _ in range(7)]
+        
+        #------start-test-------#
+        #create an instance of a game
+        game = Game(dice)
+        flag = True
+        
+        if(not isinstance(game, Game)):
+            flag = False
+        #------end-test---------#
+        
+        #------start-assertion------#
+        #error message in case test fails
+        message = 'Game was NOT created'
+        
+        #assertTrue
+        self.assertTrue(flag, message)
+        #------end-assertion------#
+        
+    def test_6_play(self):
+        #innitialize a die
+        faces_array = np.array([1,2,3,4,5,6])
+        die = Die(faces_array, weight = 1.0)
+        
+        #make many of die
         dice = [die for _ in range(7)]
         
         #create an instance of a game
         game = Game(dice)
         
+        #------start-test-------#
+        #play the game
+        game.play(100)
+        flag = True
         
-        pass
+        if(not isinstance(game._private_data_frame_2, pd.DataFrame)):
+            flag = False
+        #------end-test---------#
+        
+        #------start-assertion------#
+        #error message in case test fails
+        message = 'Game was NOT played. PLAY THE DAMN GAME! please!'
+        
+        #assertTrue
+        self.assertTrue(flag, message)
+        #------end-assertion------#
+    
+    def test_7_show_results(self):
+        #innitialize a die
+        faces_array = np.array([1,2,3,4,5,6])
+        die = Die(faces_array, weight = 1.0)
+        
+        #make many of die
+        dice = [die for _ in range(7)]
+        
+        #create an instance of a game
+        game = Game(dice)
+        
+        #play the game
+        game.play(100)
+        
+        #------start-test-------#
+        #show results
+        print(game.show_results())
+        flag = True
+        
+        if(not isinstance(game.show_results(), pd.DataFrame)):
+            flag = False
+        
+        #------end-test---------#
+        
+        #------start-assertion------#
+        #error message in case test fails
+        message = 'Game results were not shown'
+        
+        #assertTrue
+        self.assertTrue(flag, message)
+        #------end-assertion------#
+        
+class AnalyzerTestSuite(unittest.TestCase):
+    def test_8_create_game_to_analyze(self):
+        #innitialize a die
+        faces_array = np.array([1,2,3,4,5,6])
+        die = Die(faces_array, weight = 1.0)
+        
+        #make many of die
+        dice = [die for _ in range(7)]
+        
+        #create an instance of a game
+        game = Game(dice)
+        
+        #------start-test-------#
+        #create an analyzer instance
+        analyzer = Analyzer(game)
+        flag = True
+        
+        if(not isinstance(analyzer, Analyzer)):
+            flag = False
+        #------end-test---------#
+        
+        #------start-assertion------#
+        #error message in case test fails
+        message = 'Analyzer instance was NOT created'
+        
+        #assertTrue
+        self.assertTrue(flag, message)
+        #------end-assertion------#
+        
+    def test_9_jackpot(self):
+        #innitialize a die
+        faces_array = np.array([1,2,3,4,5,6])
+        die = Die(faces_array, weight = 9.0) #adding a heavy weight for jackpots
+        
+        #make many of die
+        dice = [die for _ in range(7)]
+        
+        #create an instance of a game
+        game = Game(dice)
+        
+        #play the game
+        game.play(10)
+        
+        #create an analyzer instance
+        analyzer = Analyzer(game)
+        
+        #------start-test-------#
+        print(analyzer.jackpot())
+        flag = True
+        
+        if(not isinstance(analyzer.jackpot(), int)):
+            flag = False
+        #------end-test---------#
+        
+        #------start-assertion------#
+        #error message in case test fails
+        message = 'Jackpot is not a returned integer'
+        
+        #assertTrue
+        self.assertTrue(flag, message)
+        #------end-assertion------#
+        
+    
         
         
 if __name__ == '__main__':

@@ -161,10 +161,11 @@ class Game():
             If any object in dice_list is not an instance of Die.
         '''
         if all(isinstance(die, Die) for die in dice_list):                 #check if all objects in dice_list are instances of Die
-            self.dice_list = dice_list                                     #if so, set self.dice_list to dice_list
+            self.game = dice_list                                     #if so, set self.dice_list to dice_list
         else:
             raise ValueError("value error: all objects in dice_list must be instances of Die")
-
+            
+        
     def play(self, num_rolls):
         '''
         Takes an integer parameter to specify how many times the dice should
@@ -179,11 +180,11 @@ class Game():
         num_rolls : int
             The number of times the dice should be rolled.
         '''
-        result_dict = {f'Die_{i}': [] for i in range(len(self.dice_list))} #create a dictionary to store the results in
+        result_dict = {f'Die_{i}': [] for i in range(len(self.game))} #create a dictionary to store the results in
 
         for i in range(num_rolls):                                         #roll the dice num_rolls times
-            for j, die in enumerate(self.dice_list):                       #roll each die in the list
-                result_dict[f'Die_{j}'].extend(die.roll(1))                 #append the result of the roll to the dictionary
+            for j, die in enumerate(self.game):                       #roll each die in the list
+                result_dict[f'Die_{j}'].extend(die.roll(1))                #append the result of the roll to the dictionary
 
         self._private_data_frame_2 = pd.DataFrame(result_dict)             #save the results in a private data frame
         self._private_data_frame_2.index.name = "Roll Number"              #set the index name to "Roll Number"
@@ -260,14 +261,14 @@ class Analyzer():
         int
             The number of jackpots.
         '''
-        df = self.game.show_results("wide")     #grab the current game's df
+        df = self.game.show_results()     #grab the current game's df
 
         jackpot_count = 0
         for roll_number, row in df.iterrows():  #iterate through each row in the df
             if row.nunique() == 1:              #check if nunique is 1 (meaning each die rolls the same number on a given roll)
                 jackpot_count += 1
 
-        return print("Number of Jackpots: ", jackpot_count)
+        return jackpot_count
 
     def face_values(self):
         '''
