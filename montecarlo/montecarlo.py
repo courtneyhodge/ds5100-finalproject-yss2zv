@@ -1,15 +1,18 @@
 import numpy as np
 import pandas as pd
 
+import numpy as np
+import pandas as pd
+
 class Die():
     '''
     General Purpose: A class that creates a die object for the project with distinct faces and
-    adjustable weights. 
+    adjustable weights.
     '''
-    
+
     def __init__(self, faces, weight = 1.0):                        #W defualts to 1.0
         '''
-        Initializes the die with a list of faces. 
+        Initializes the die with a list of faces.
 
         Parameters:
         -----------
@@ -37,18 +40,13 @@ class Die():
                     raise TypeError("wrong type: all faces must be strings or numbers") #if this doesn't work, raise TypeError
 
         elif np.issubdtype(faces.dtype, np.integer):                #check if sub dtypes of faces are ints
-            pass
+            pass 
 
         elif np.issubdtype(faces.dtype, np.floating):               #check if sub dtypes of faces are floats
             pass
 
         elif np.issubdtype(faces.dtype, np.str_):                   #check if sub dtypes of faces are str
-            for element in faces:                                   #if so, try to change them to ints
-                try:
-                    int(element)
-                except:
-                    raise TypeError("wrong type: all faces must be strings or numbers") #if there's a TypeError, raise it
-            print("String faces are now all ints!")
+            pass
 
         else:
             raise TypeError("wrong type: all faces must be strings or numbers") #if none of the above, raise TypeError
@@ -129,7 +127,7 @@ class Die():
 
     def die_current_state(self):
         """
-        Returns a copy of the private die data frame to the user. 
+        Returns a copy of the private die data frame to the user.
 
         Returns:
         --------
@@ -137,8 +135,7 @@ class Die():
             A copy of the DataFrame containing faces and their current weights.
         """
 
-        return self._private_data_frame.copy()
-        
+        return self._private_data_frame.copy()    
     
     
 class Game():
