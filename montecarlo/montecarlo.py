@@ -235,7 +235,7 @@ class Analyzer():
     def __init__(self, game):
         """
         Initializes the analyzer with a game object. Throws a ValueError if the
-        passed value is not a Game object. 
+        passed value is not a Game object.
 
         Parameters:
         -----------
@@ -254,7 +254,7 @@ class Analyzer():
     def jackpot(self):
         '''
         A jackpot is a result in which all faces are the same, e.g. all ones
-        for a six-sided die. Computes how many times the game resulted in a jackpot. 
+        for a six-sided die. Computes how many times the game resulted in a jackpot.
 
         Returns:
         --------
@@ -272,7 +272,7 @@ class Analyzer():
 
     def face_values(self):
         '''
-        Computes how many times a given face is rolled in each event. 
+        Computes how many times a given face is rolled in each event.
 
         Returns:
         --------
@@ -283,20 +283,20 @@ class Analyzer():
         df = self.game.show_results("wide")
 
         all_faces = sorted(set(face for die in self.game.dice for face in die.faces)) #get all faces from all dice
-        
+
         face_df = pd.DataFrame(0, index = df.index, columns = all_faces) #create a dataframe to store the results
-       
+
         for roll_number, row in df.iterrows():                           #iterate through each row in the df
             face_counts = row.value_counts()                             #get the count of each face in the row
             for face in all_faces:                                       #iterate through all faces
                 face_df.at[roll_number, face] = face_counts.get(face, 0) #store the count of the face in the dataframe
-                
+
         return face_df
 
     def combination_count(self):
         '''
         Computes the distinct combinations of faces rolled, along with their
-        counts. Combinations are order-independent and may contain repetitions. 
+        counts. Combinations are order-independent and may contain repetitions.
 
         Returns:
         --------
@@ -305,8 +305,11 @@ class Analyzer():
             for the associated counts.
         '''
         df = self.game.show_results("wide")
-        
-        sorted_rows = df.apply(lambda x: tuple(sorted(x)), axis=1) #ensure order independency, aligning with method requirements 
+
+        sorted_rows = df.apply(lambda x: tuple(sorted(x)), axis=1) #ensure order independency, aligning with method requirements
+
+
+        #sorted_rows_to_list = sorted_rows.tolist()                 #convert the series to a list
 
         combo_counts = sorted_rows.value_counts().sort_index()     #count the number of times each combination occurs
 
@@ -315,13 +318,13 @@ class Analyzer():
         combo_df.columns = ['Combination', 'Count']                #rename the columns
 
         combo_df.set_index('Combination', inplace=True)            #set the index to the combination
-        
+
         return combo_df
 
     def permutation_count(self):
         '''
         Computes the distinct permutations of faces rolled, along with their
-        counts. Permutations are order-dependent and may contain repetitions. 
+        counts. Permutations are order-dependent and may contain repetitions.
 
         Returns:
         --------
@@ -332,13 +335,14 @@ class Analyzer():
         df = self.game.show_results("wide")
 
         perm_rows = df.apply(tuple, axis=1)                 #ensure order independency, aligning with method requirements
-        
+
         perm_counts = perm_rows.value_counts().sort_index() #count the number of times each permutation occurs
-        
+
         perm_df = perm_counts.reset_index(name='Count')     #reset the index to a column
-        
+
         perm_df.columns = ['Permutation', 'Count']          #rename the columns
-        
+
         perm_df.set_index('Permutation', inplace=True)      #set the index to the permutation
-        
+
         return perm_df
+

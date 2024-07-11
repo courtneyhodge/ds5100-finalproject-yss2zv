@@ -91,10 +91,7 @@ class DieTestSuite(unittest.TestCase):
         #assertTrue
         self.assertTrue(flag, message)
         #------end-assertion------#
-        
-        
-class GameTestSuite(unittest.TestCase):
-    
+           
     def test_05_create_game(self):
         #innitialize a die
         faces_array = np.array([1,2,3,4,5,6])
@@ -180,7 +177,6 @@ class GameTestSuite(unittest.TestCase):
         self.assertTrue(flag, message)
         #------end-assertion------#
         
-class AnalyzerTestSuite(unittest.TestCase):
     def test_08_create_game_to_analyze(self):
         #innitialize a die
         faces_array = np.array([1,2,3,4,5,6])
