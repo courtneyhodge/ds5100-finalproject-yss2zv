@@ -78,52 +78,61 @@ analyzer.permutation_count()
 ```
 ## API Description
 
-### Classes and Methods
+### Die
 
-#### Die
-> Represents a single die with customizable faces.
+```python
+"""Represents a single die with customizable faces."""
+```
 
-##### Methods:
+#### Methods:
 
 ```python
 __init__(self, faces: np.ndarray, weight: float = 1.0):
-```
-'''
-Initializes the die with a list of faces.
+
+
+"""Initializes the die with a list of faces.
 Parameters:
 faces (np.ndarray): A NumPy array of unique faces for the die.
 weight (float, optional): The initial weight for each face (default is 1.0).
 Raises:
 TypeError: If faces is not a NumPy array or contains invalid types.
-ValueError: If faces do not contain unique values.
-'''
-```python
-update_weight(self, face_value_to_change, new_weight: float):
+ValueError: If faces do not contain unique values."""
 ```
 
-Changes the weight of a specified face.
+```python
+update_weight(self, face_value_to_change, new_weight: float):
+
+"""Changes the weight of a specified face.
 Parameters:
 face_value_to_change (int, float, or str): The face value whose weight is to be changed.
 new_weight (int, float, or str): The new weight for the specified face.
 Raises:
 IndexError: If the face value is not found in the die.
-TypeError: If the new weight is not a valid type (int, float, or str).
-roll(self, num_of_rolls: int = 1) -> list:
+TypeError: If the new weight is not a valid type (int, float, or str)."""
+```
 
-Rolls the die a specified number of times.
+```python
+roll(self, num_of_rolls: int = 1):
+
+"""Rolls the die a specified number of times.
 Parameters:
 num_of_rolls (int, optional): The number of times to roll the die (default is 1).
 Returns:
-list: List of outcomes from the rolls.
-die_current_state(self) -> pd.DataFrame:
+list: List of outcomes from the rolls."""
+```
+```python
+die_current_state(self):
 
-Returns the DataFrame containing faces and weights.
+"""Returns the DataFrame containing faces and weights.
 Returns:
-pd.DataFrame: DataFrame containing faces and weights.
-Game
-Represents a game consisting of multiple dice.
+pd.DataFrame: DataFrame containing faces and weights."""
+```
 
-Methods:
+### Game
+```python
+"""Represents a game consisting of multiple dice."""
+```
+#### Methods:
 
 __init__(self, dice: list):
 
