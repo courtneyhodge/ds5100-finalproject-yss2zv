@@ -134,14 +134,75 @@ pd.DataFrame: DataFrame containing faces and weights."""
 ```
 #### Methods:
 
+```python
 __init__(self, dice: list):
 
-Initializes a game with a list of dice.
+"""Initializes a game with a list of dice.
 Parameters:
-dice (list): List of Die objects.
+dice (list): List of Die objects."""
+```
+
+```python
 play(self, rolls: int):
 
-Plays the game by rolling all dice a specified number of times.
+"""Plays the game by rolling all dice a specified number of times.
 Parameters:
-rolls (int): Number of times to roll the dice.
-show_results(self, form: str = 'wide') -> pd.DataFrame:
+rolls (int): Number of times to roll the dice."""
+```
+
+```python
+show_results(self, form: str = 'wide')
+"""
+Shows the results of the game in the specified format.
+Parameters:
+form (str, optional): Format to show results ('wide' or 'narrow'). Defaults to 'wide'.
+Returns:
+pd.DataFrame: DataFrame of the game results.
+"""
+```
+
+### Analyzer
+
+#### Methods:
+
+```python
+__init__(self, game: Game):
+"""
+Initializes the analyzer with a game object.
+Parameters:
+game (Game): An instance of the Game class representing the game to analyze.
+Raises:
+ValueError: If game is not an instance of the Game class.
+"""
+```
+
+```python
+
+jackpot(self) -> int:
+
+"""Computes the number of times the game resulted in a jackpot (all faces are the same).
+Returns:
+int: The number of jackpots."""```
+
+
+```python
+face_values(self) -> pd.DataFrame:
+
+"""Computes how many times a given face is rolled in each event.
+Returns:
+pd.DataFrame: DataFrame showing the count of each face rolled in each event. Index represents the roll number, columns represent face values."""```
+
+```python
+combination_count(self) -> pd.DataFrame:
+
+"""Computes the distinct combinations of faces rolled, along with their counts. Combinations are order-independent and may contain repetitions.
+Returns:
+pd.DataFrame: DataFrame with MultiIndex of distinct combinations and a column for the associated counts."""```
+
+```python
+permutation_count(self) -> pd.DataFrame:
+
+"""Computes the distinct permutations of faces rolled, along with their counts. Permutations are order-dependent and may contain repetitions.
+Returns:
+pd.DataFrame: DataFrame with MultiIndex of distinct permutations and a column for the associated counts."""
+```
