@@ -6,10 +6,7 @@
 
 ## Synopsis
 
-### Brief Demo
-> Let's walk through a demo of this final project. Do you want to play a game? Of course you do!
-
-#### Installation
+### Installation
 > If you're doing it locally after cloning the repo to your machine, you can call.
 ```python
 pip install .
