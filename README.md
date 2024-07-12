@@ -1,4 +1,14 @@
-# ds5100-finalproject-yss2zv
+# Monte Carlo Simulator
+
+## Metadata
+**Author:** Courtney Hodge
+**Project Name:** DS 5100 Final Project
+
+## Synopsis
+
+### Installation
+> 
+
 
 ## Installing Library
 > When you are ready to begin testing, always return to the project's main directory and
