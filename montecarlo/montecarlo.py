@@ -1,16 +1,13 @@
 import numpy as np
 import pandas as pd
 
-import numpy as np
-import pandas as pd
-
 class Die():
     '''
     General Purpose: A class that creates a die object for the project with distinct faces and
     adjustable weights.
     '''
 
-    def __init__(self, faces, weight = 1.0):                        #W defualts to 1.0
+    def __init__(self, faces, weight = 1.0):                                    #W defualts to 1.0
         '''
         Initializes the die with a list of faces.
 
@@ -29,47 +26,46 @@ class Die():
             If faces do not contain unique values.
         '''
 
-        if(not isinstance(faces, np.ndarray)):                      #Throws TypeError if faces is not a NumPy array
+        if(not isinstance(faces, np.ndarray)):                                  #Throws TypeError if faces is not a NumPy array
             raise TypeError("Faces must be a NumPy array")
 
-        if faces.dtype == object:                                   #checks if string contains objects and type casts as int
+        if faces.dtype == object:                                               #checks if string contains objects and type casts as int
             for element in faces:
                 try:
                     int(element)
                 except:
                     raise TypeError("wrong type: all faces must be strings or numbers") #if this doesn't work, raise TypeError
 
-        elif np.issubdtype(faces.dtype, np.integer):                #check if sub dtypes of faces are ints
-            pass 
-
-        elif np.issubdtype(faces.dtype, np.floating):               #check if sub dtypes of faces are floats
+        elif np.issubdtype(faces.dtype, np.integer):                            #check if sub dtypes of faces are ints
             pass
 
-        elif np.issubdtype(faces.dtype, np.str_):                   #check if sub dtypes of faces are str
+        elif np.issubdtype(faces.dtype, np.floating):                           #check if sub dtypes of faces are floats
+            pass
+
+        elif np.issubdtype(faces.dtype, np.str_):                               #check if sub dtypes of faces are str
+            
             pass
 
         else:
             raise TypeError("wrong type: all faces must be strings or numbers") #if none of the above, raise TypeError
 
-        if(len(np.unique(faces)) != len(faces)):                    #check if each value is unique in faces, if not, raise ValueError
+        if(len(np.unique(faces)) != len(faces)):                                #check if each value is unique in faces, if not, raise ValueError
             raise ValueError("duplicate values: faces must be distinct")
         else:
             pass
 
-        self.faces = faces
-
+        
         if((type(weight) == float) or (type(weight) == int) or (type(weight) == str)): #check if the weight is castable to float
             if(type(weight) == str):
                 weight = float(weight)
             elif(type(weight) == int):
                 weight = float(weight)
-        self.weight = np.ones_like(faces, dtype = float) * weight   #initialize weights to 1.0 for each face AND allows for the
-                                                                    #weights to update if a float other than 1.0 is provided
-
-        self._private_data_frame = pd.DataFrame({"faces": faces, "weights": weight}) #save faces and weights in a private df
 
 
-    def update_weight(self, face_value_to_change, new_weight):      #function to update a face weight, ie make it an unfair die
+        self._private_data_frame = pd.DataFrame({"faces": faces, "weights": np.ones_like(faces, dtype = float) * weight }) #save faces and weights in a private df
+
+
+    def update_weight(self, face_value_to_change, new_weight):                  #function to update a face weight, ie make it an unfair die
         '''
         Takes two arguments: the face value to be changed and the new weight.
 
@@ -88,22 +84,22 @@ class Die():
             If the new weight is not a valid type (int, float, or str).
         '''
 
-        if(face_value_to_change in self.faces):                     #if the face value to change is found in the die...
+        if(face_value_to_change in self._private_data_frame['faces'].values):   #if the face value to change is found in the die...
             if((type(new_weight) == float) or (type(new_weight) == int) or (type(new_weight) == str)): #check if the weight is castable to float
                 if(type(new_weight) == str):
                     new_weight = float(new_weight)
                 elif(type(new_weight) == int):
                     new_weight = float(new_weight)
-                self.weight[self.faces == face_value_to_change] = new_weight                            #update the weight of a single face
+
                 self._private_data_frame.loc[self._private_data_frame["faces"] == face_value_to_change, #update the weight of a single face THIS IS SO ESSENTIAL!
                                              "weights"] = new_weight
             else:
                 raise TypeError("type error: new weight must be a float, int, or string")               #if the weight is not castable, raise TypeError
         else:
-            raise IndexError("index error: face value not in die")  #if the face value to change is NOT found in the die, throw an IndexError
+            raise IndexError("index error: face value not in die")              #if the face value to change is NOT found in the die, throw an IndexError
 
 
-    def roll(self, num_of_rolls = 1):                               #function to roll the die one or more times
+    def roll(self, num_of_rolls = 1):                                           #function to roll the die one or more times
         '''
         Takes a parameter of how many times the die is to be rolled;
         defaults to 1. This is essentially a random sample with replacement,
@@ -122,7 +118,7 @@ class Die():
         '''
 
         return self._private_data_frame.sample(n = num_of_rolls, replace = True,             #convert the df to a list as specified
-                                               weights = self.weight).faces.tolist()
+                                               weights = self._private_data_frame["weights"]).faces.tolist()
 
 
     def die_current_state(self):
@@ -158,11 +154,11 @@ class Game():
             If any object in dice_list is not an instance of Die.
         '''
         if all(isinstance(die, Die) for die in dice):                 #check if all objects in dice_list are instances of Die
-            self.dice = dice                                     #if so, set self.dice_list to dice_list
+            self.dice = dice                                          #if so, set self.dice_list to dice_list
         else:
             raise ValueError("value error: all objects in dice_list must be instances of Die")
-            
-        
+
+
     def play(self, num_rolls):
         '''
         Takes an integer parameter to specify how many times the dice should
@@ -179,12 +175,12 @@ class Game():
         '''
         result_dict = {f'Die_{i}': [] for i in range(len(self.dice))} #create a dictionary to store the results in
 
-        for i in range(num_rolls):                                         #roll the dice num_rolls times
+        for i in range(num_rolls):                                    #roll the dice num_rolls times
             for j, die in enumerate(self.dice):                       #roll each die in the list
-                result_dict[f'Die_{j}'].extend(die.roll(1))                #append the result of the roll to the dictionary
+                result_dict[f'Die_{j}'].extend(die.roll(1))           #append the result of the roll to the dictionary
 
-        self._private_data_frame_2 = pd.DataFrame(result_dict)             #save the results in a private data frame
-        self._private_data_frame_2.index.name = "Roll Number"              #set the index name to "Roll Number"
+        self._private_data_frame_2 = pd.DataFrame(result_dict)        #save the results in a private data frame
+        self._private_data_frame_2.index.name = "Roll Number"         #set the index name to "Roll Number"
 
     def show_results(self, wide_or_narrow = "wide"):
         '''
@@ -220,8 +216,7 @@ class Game():
             return narrow_df.set_index(['Roll Number', 'Die Number'])      #set the index to the roll number and die number
 
         else:
-            raise ValueError("value error: use either 'wide' or 'narrow'")
-        
+            raise ValueError("value error: use either 'wide' or 'narrow'")        
     
     
 class Analyzer():
@@ -279,7 +274,7 @@ class Analyzer():
         '''
         df = self.game.show_results("wide")
 
-        all_faces = sorted(set(face for die in self.game.dice for face in die.faces)) #get all faces from all dice
+        all_faces = sorted(set(face for die in self.game.dice for face in die._private_data_frame.faces)) #get all faces from all dice
 
         face_df = pd.DataFrame(0, index = df.index, columns = all_faces) #create a dataframe to store the results
 
@@ -342,4 +337,3 @@ class Analyzer():
         perm_df.set_index('Permutation', inplace=True)      #set the index to the permutation
 
         return perm_df
-

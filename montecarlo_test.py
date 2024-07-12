@@ -36,10 +36,10 @@ class DieTestSuite(unittest.TestCase):
         #------start-test-------#
         #update the weights of the die for face "1"
         die.update_weight(1, 7.0)
-        flag = True
         
-        if(die.weight[0] != 7.0): #see if the weight updated
-            flag = False
+        updated_weight = die._private_data_frame.loc[die._private_data_frame['faces'] == 1, 'weights'].values[0]
+        
+        flag = (updated_weight == 7.0)
         #------end-test---------#
         
         #------start-assertion------#        
