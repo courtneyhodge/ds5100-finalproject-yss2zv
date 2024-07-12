@@ -84,8 +84,6 @@ analyzer.permutation_count()
 """Represents a single die with customizable faces."""
 ```
 
-#### Methods:
-
 ```python
 __init__(self, faces: np.ndarray, weight: float = 1.0):
 
@@ -132,7 +130,6 @@ pd.DataFrame: DataFrame containing faces and weights."""
 ```python
 """Represents a game consisting of multiple dice."""
 ```
-#### Methods:
 
 ```python
 __init__(self, dice: list):
@@ -162,8 +159,6 @@ pd.DataFrame: DataFrame of the game results.
 ```
 
 ### Analyzer
-
-#### Methods:
 
 ```python
 __init__(self, game: Game):
