@@ -174,7 +174,8 @@ jackpot(self) -> int:
 
 """Computes the number of times the game resulted in a jackpot (all faces are the same).
 Returns:
-int: The number of jackpots."""```
+int: The number of jackpots."""
+```
 
 
 ```python
@@ -182,14 +183,16 @@ face_values(self) -> pd.DataFrame:
 
 """Computes how many times a given face is rolled in each event.
 Returns:
-pd.DataFrame: DataFrame showing the count of each face rolled in each event. Index represents the roll number, columns represent face values."""```
+pd.DataFrame: DataFrame showing the count of each face rolled in each event. Index represents the roll number, columns represent face values."""
+```
 
 ```python
 combination_count(self) -> pd.DataFrame:
 
 """Computes the distinct combinations of faces rolled, along with their counts. Combinations are order-independent and may contain repetitions.
 Returns:
-pd.DataFrame: DataFrame with MultiIndex of distinct combinations and a column for the associated counts."""```
+pd.DataFrame: DataFrame with MultiIndex of distinct combinations and a column for the associated counts."""
+```
 
 ```python
 permutation_count(self) -> pd.DataFrame:
