@@ -170,7 +170,7 @@ ValueError: If game is not an instance of the Game class.
 
 ```python
 
-jackpot(self) -> int:
+jackpot(self):
 
 """Computes the number of times the game resulted in a jackpot (all faces are the same).
 Returns:
@@ -179,7 +179,7 @@ int: The number of jackpots."""
 
 
 ```python
-face_values(self) -> pd.DataFrame:
+face_values(self):
 
 """Computes how many times a given face is rolled in each event.
 Returns:
@@ -187,7 +187,7 @@ pd.DataFrame: DataFrame showing the count of each face rolled in each event. Ind
 ```
 
 ```python
-combination_count(self) -> pd.DataFrame:
+combination_count(self):
 
 """Computes the distinct combinations of faces rolled, along with their counts. Combinations are order-independent and may contain repetitions.
 Returns:
@@ -195,7 +195,7 @@ pd.DataFrame: DataFrame with MultiIndex of distinct combinations and a column fo
 ```
 
 ```python
-permutation_count(self) -> pd.DataFrame:
+permutation_count(self):
 
 """Computes the distinct permutations of faces rolled, along with their counts. Permutations are order-dependent and may contain repetitions.
 Returns:
